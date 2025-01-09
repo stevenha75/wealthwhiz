@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import './Header.css';
 
 const Header = () => {
@@ -7,7 +8,7 @@ const Header = () => {
             <h1 className="logo">Budget</h1>
             <div className="links">
                 <a href = '/'> Home</a>
-                <a href = '/'> Budget</a>
+                <a href = '/budget'> Budget</a>
                 <a href = '/'> Profile</a>
             </div>
         </div>
