@@ -16,7 +16,7 @@ const SignInForm = () => {
     try {
       await login(email, password); // Call the login function
       alert('Sign in successful!');
-      navigate('/budget'); // Redirect to the budget page after success
+      navigate('/form'); // Redirect to the budget page after success
     } catch (err: any) {
       setError(err.message || 'Failed to sign in.');
     }

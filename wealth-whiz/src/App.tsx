@@ -5,6 +5,7 @@ import Header from './components/Header';
 import SignInForm from './components/SignInForm';
 import ProtectedRoute from './components/ProtectedRoute';
 import BudgetPage from './app/budget/Budget';
+import FormPage from './app/form/Form';
 import logo from './assets/logo.png';
 import { AuthProvider } from './context/AuthContext';
 
@@ -29,6 +30,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <BudgetPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/form"
+            element={
+              <ProtectedRoute>
+                <FormPage />
               </ProtectedRoute>
             }
           />
