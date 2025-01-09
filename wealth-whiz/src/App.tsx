@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import Header from './components/Header';
 import SignInForm from './components/SignInForm';
+import ProtectedRoute from './components/ProtectedRoute';
 import BudgetPage from './app/budget/Budget';
 import logo from './assets/logo.png';
 import { AuthProvider } from './context/AuthContext'; // Import AuthProvider
@@ -23,7 +24,14 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/budget" element={<BudgetPage />} />
+          <Route
+            path="/budget"
+            element={
+              <ProtectedRoute>
+                <BudgetPage />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </Router>
     </AuthProvider>
