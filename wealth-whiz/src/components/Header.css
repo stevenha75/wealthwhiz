@@ -14,7 +14,7 @@
     box-sizing: border-box;
   }
   
-  .logo {
+  .header-logo {
     font-family: 'Belleza', sans-serif;
     font-size: 1.5rem;
     white-space: nowrap;
@@ -33,4 +33,4 @@
     color: white;
     font-weight: 600;
   }
- 
+  

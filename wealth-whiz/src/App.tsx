@@ -12,8 +12,9 @@ function App() {
     <>
       <Header />
       <main>
-        {/* <img src="/assets/logo.png" alt="Wealth Whiz Logo" className="logo-img me-3" /> */}
-        <img src={logo} alt="Wealth Whiz Logo" className="logo-img me-3" />
+        <div className="logo-section">
+          <img src={logo} alt="Wealth Whiz Logo" className="logo-img me-3" />
+        </div>
         <SignInForm/>
       </main>
     </>
