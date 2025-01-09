@@ -6,7 +6,7 @@ import SignInForm from './components/SignInForm';
 import ProtectedRoute from './components/ProtectedRoute';
 import BudgetPage from './app/budget/Budget';
 import logo from './assets/logo.png';
-import { AuthProvider } from './context/AuthContext'; // Import AuthProvider
+import { AuthProvider } from './context/AuthContext';
 
 const HomePage = () => (
   <main>
