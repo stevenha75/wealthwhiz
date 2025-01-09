@@ -5,6 +5,7 @@ import Header from './components/Header';
 import SignInForm from './components/SignInForm';
 import BudgetPage from './app/budget/Budget';
 import logo from './assets/logo.png';
+import { AuthProvider } from './context/AuthContext'; // Import AuthProvider
 
 const HomePage = () => (
   <main>
@@ -17,15 +18,16 @@ const HomePage = () => (
 
 function App() {
   return (
-    <Router>
-      <Header />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/budget" element={<BudgetPage />} />
-      </Routes>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Header />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/budget" element={<BudgetPage />} />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 }
 
-
-export default App
+export default App;
