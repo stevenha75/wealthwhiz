@@ -176,7 +176,26 @@ const BudgetPage = () => {
             select
             label="Category"
             variant="outlined"
-            sx={{ width: '1650px' }}
+            sx={{
+              width: '1650px',
+              '& .MuiInputBase-input': {
+                color: 'white',
+              },
+              '& .MuiInputLabel-root': {
+                color: 'white',
+              },
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: 'white',
+                },
+                '&:hover fieldset': {
+                  borderColor: '#90caf9',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: '#42a5f5',
+                },
+              },
+            }}
             value={newTransaction.description}
             onChange={(e) => setNewTransaction({ ...newTransaction, description: e.target.value })}
           >
@@ -192,7 +211,26 @@ const BudgetPage = () => {
             label="Amount"
             variant="outlined"
             type="number"
-            sx={{ width: '1250px' }}
+            sx={{
+              width: '1250px',
+              '& .MuiInputBase-input': {
+                color: 'white',
+              },
+              '& .MuiInputLabel-root': {
+                color: 'white',
+              },
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: 'white',
+                },
+                '&:hover fieldset': {
+                  borderColor: '#90caf9',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: '#42a5f5',
+                },
+              },
+            }}
             value={newTransaction.amount}
             onChange={(e) => setNewTransaction({ ...newTransaction, amount: e.target.value })}
           />
