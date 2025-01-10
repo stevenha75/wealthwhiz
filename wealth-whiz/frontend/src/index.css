@@ -23,7 +23,10 @@ a:hover {
 }
 
 body {
-  background-color: #57898E; /* Ensure it complements the design */
+  background-image: url('./assets/WealthWiz.png'); /* Replace with the actual path to your image */
+  background-size: cover; /* Ensure the image covers the entire viewport */
+  background-repeat: no-repeat; /* Prevent the image from repeating */
+  background-position: center; /* Center the image */
   margin: 0;
   display: flex;
   justify-content: center; /* Center content horizontally */

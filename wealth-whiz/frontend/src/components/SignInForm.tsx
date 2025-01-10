@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import './SignInForm.css';
-import { login } from '../services/authService'; // Import the login function
-import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
+import { TextField, Button, Typography, Container, Box, Alert } from '@mui/material';
+import { login } from '../services/authService';
+import { useNavigate } from 'react-router-dom';
+import '@fontsource/roboto/300.css';
 
 const SignInForm = () => {
   const [email, setEmail] = useState('');
@@ -23,35 +24,80 @@ const SignInForm = () => {
   };
 
   return (
-    <div className="sign-in-form">
-      <h2>Sign In</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        {error && <div className="error-message">{error}</div>}
-        <button type="submit" className="submit-btn">Sign In</button>
-      </form>
-    </div>
+    <Container
+      maxWidth="xs"
+      sx={{
+        marginTop: 8,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        boxShadow: 3,
+        padding: 3,
+        borderRadius: 2,
+        backgroundColor: '#ffffff',
+      }}
+    >
+      <Typography variant="h4"
+        component="h1"
+        gutterBottom
+        sx={{
+          fontFamily: 'Roboto, sans-serif',
+          color: '#074799',
+          fontWeight: '400',
+        }}
+      >
+        Sign In
+      </Typography>
+      <Box
+        component="form"
+        onSubmit={handleSubmit}
+        sx={{
+          width: '100%', // Fix IE 11 issue.
+          mt: 1,
+        }}
+      >
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          id="email"
+          label="Email Address"
+          name="email"
+          autoComplete="email"
+          autoFocus
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          name="password"
+          label="Password"
+          type="password"
+          id="password"
+          autoComplete="current-password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        {error && (
+          <Alert severity="error" sx={{ mt: 2 }}>
+            {error}
+          </Alert>
+        )}
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          color="primary"
+          sx={{ mt: 3, mb: 2, backgroundColor: '#074799', fontFamily: 'Roboto, sans-serif',}}
+        >
+          Sign In
+        </Button>
+      </Box>
+    </Container>
   );
 };
 
