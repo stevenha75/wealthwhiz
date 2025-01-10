@@ -129,7 +129,7 @@ const BudgetPage = () => {
         Your Personalized Budget Tracker
       </Typography>
 
-      {/* Modal for ChatGPT Response */}
+{/* Modal for ChatGPT Response */}
 <Modal
   open={openModal}
   onClose={() => setOpenModal(false)}
@@ -157,13 +157,19 @@ const BudgetPage = () => {
       sx={{
         fontWeight: 'bold', // Makes the text bold
         fontSize: '24px',   // Increases the font size
-        color: '#000000',
+        color: '#000000',   // Black text
       }}
     >
       Suggested Budget:
     </Typography>
 
-    <Typography id="chatgpt-response-description" sx={{ mt: 2 }}>
+    <Typography
+      id="chatgpt-response-description"
+      sx={{
+        mt: 2,
+        color: '#000000', // Ensures paragraph text is black
+      }}
+    >
       {chatGPTResponse}
     </Typography>
     <Button
