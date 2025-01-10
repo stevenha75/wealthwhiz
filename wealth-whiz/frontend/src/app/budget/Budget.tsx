@@ -130,41 +130,54 @@ const BudgetPage = () => {
       </Typography>
 
       {/* Modal for ChatGPT Response */}
-      <Modal
-        open={openModal}
-        onClose={() => setOpenModal(false)}
-        aria-labelledby="chatgpt-response-title"
-        aria-describedby="chatgpt-response-description"
-      >
-        <Box
-          sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: 400,
-            bgcolor: 'background.paper',
-            border: '2px solid #000',
-            boxShadow: 24,
-            p: 4,
-          }}
-        >
-          <Typography id="chatgpt-response-title" variant="h6" component="h2">
-            Suggested Budget
-          </Typography>
-          <Typography id="chatgpt-response-description" sx={{ mt: 2 }}>
-            {chatGPTResponse}
-          </Typography>
-          <Button
-            onClick={() => setOpenModal(false)}
-            variant="contained"
-            color="primary"
-            sx={{ mt: 2 }}
-          >
-            Close
-          </Button>
-        </Box>
-      </Modal>
+<Modal
+  open={openModal}
+  onClose={() => setOpenModal(false)}
+  aria-labelledby="chatgpt-response-title"
+  aria-describedby="chatgpt-response-description"
+>
+  <Box
+    sx={{
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      width: 600, // Increased width
+      bgcolor: 'background.paper',
+      border: '2px solid #000',
+      boxShadow: 24,
+      p: 4,
+      borderRadius: '16px', // Adds rounded corners
+    }}
+  >
+    <Typography
+      id="chatgpt-response-title"
+      variant="h6"
+      component="h2"
+      sx={{
+        fontWeight: 'bold', // Makes the text bold
+        fontSize: '24px',   // Increases the font size
+        color: '#000000',
+      }}
+    >
+      Suggested Budget:
+    </Typography>
+
+    <Typography id="chatgpt-response-description" sx={{ mt: 2 }}>
+      {chatGPTResponse}
+    </Typography>
+    <Button
+      onClick={() => setOpenModal(false)}
+      variant="contained"
+      color="primary"
+      sx={{ mt: 2 }}
+    >
+      Close
+    </Button>
+  </Box>
+</Modal>
+
+
 
       {/* Add Transaction Section */}
       <Box sx={{ mt: 4 }}>
