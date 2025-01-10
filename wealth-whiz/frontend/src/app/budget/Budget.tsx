@@ -96,6 +96,7 @@ const BudgetPage = () => {
   align="center"
   gutterBottom
   sx={{
+    color: "#ECECEC",
     marginTop: '75px',
     fontWeight: 'bold',
     fontSize: '40px',
@@ -125,7 +126,7 @@ const BudgetPage = () => {
 
       {/* Add Transaction Section */}
       <Box sx={{ mt: 4 }}>
-        <Typography variant="h6" align="left"> Add Transaction</Typography>
+        <Typography variant="h6" align="left" sx={{color: "#ECECEC"}}> Add Transaction</Typography>
         <Stack direction="row" spacing={6} sx={{ mt: 2}}>
           <TextField
       select

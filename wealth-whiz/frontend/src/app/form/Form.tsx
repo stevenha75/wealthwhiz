@@ -92,7 +92,7 @@ const FormPage = () => {
 
   return (
     <Container maxWidth="sm" sx={{ mt: 4 }}>
-      <Typography variant="h5" align="center" gutterBottom>
+      <Typography variant="h5" align="center" gutterBottom sx={{color: "#ECECEC"}} >
         Tell us about you and your goals so we can help you get there:
       </Typography>
 

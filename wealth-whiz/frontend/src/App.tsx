@@ -35,7 +35,7 @@ const HomePage = () => (
         variant="body1"
         sx={{
           fontSize: '1.5rem',
-          color: '',
+          color: '#ECECEC',
           textAlign: 'center',
         }}
       >
