@@ -160,7 +160,7 @@ const BudgetPage = () => {
         color: '#000000',   // Black text
       }}
     >
-      Suggested Budget:
+      Suggested Budget
     </Typography>
 
     <Typography

@@ -56,11 +56,9 @@ app.post("/api/exchange-public-token", async (req, res) => {
 app.post("/api/get-transactions", async (req, res) => {
   try {
     const transactions = [
-      { category: "Groceries", amount: 250 },
-      { category: "Rent", amount: 1200 },
-      { category: "Entertainment", amount: 200 },
-      { category: "Transportation", amount: 150 },
-      { category: "Savings", amount: 500 },
+      { category: "Groceries", amount: 50 },
+      { category: "Rent", amount: 1000 },
+      { category: "Utilities", amount: 150 },
     ];
     res.json({ transactions });
   } catch (err) {
@@ -77,7 +75,7 @@ app.post("/api/generate-budget", async (req, res) => {
     Here are my transactions:
     ${JSON.stringify(transactions, null, 2)}
 
-    Based on this data, create a monthly budget for each category and suggest how much should be allocated to each category.
+    Based on this data, create a monthly budget for each category and suggest how much should be allocated to each category. Respond in sentences w/ reasoning. Be as concise as possible.
   `;
 
   try {

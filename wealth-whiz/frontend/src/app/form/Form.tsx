@@ -36,11 +36,9 @@ const FormPage = () => {
         body: JSON.stringify({
           grossIncome: formValues.grossIncome,
           transactions: [
-            { category: 'Groceries', amount: 250 },
-            { category: 'Rent', amount: 1200 },
-            { category: 'Entertainment', amount: 200 },
-            { category: 'Transportation', amount: 150 },
-            { category: 'Savings', amount: 500 },
+            { category: "Groceries", amount: 50 },
+            { category: "Rent", amount: 1000 },
+            { category: "Utilities", amount: 150 },
           ],
         }),
       });
