@@ -1,0 +1,77 @@
+.budget-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: space-between;
+    margin: 2rem auto;
+    padding: 2rem;
+    max-width: 1200px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .transaction-list-container {
+    flex: 2;
+    min-width: 60%;
+    background-color: #f9f9f9;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .transaction-list-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #1d49ae;
+    margin-bottom: 1rem;
+  }
+  
+  .transaction-table th {
+    background-color: #1d49ae;
+    color: white;
+    font-weight: bold;
+    padding: 0.75rem;
+    text-align: left;
+  }
+  
+  .transaction-table td {
+    font-size: 1rem;
+    padding: 0.75rem;
+    color: #333;
+  }
+  
+  .transaction-table td:nth-child(2) {
+    text-align: right;
+  }
+  
+  .pie-chart-container {
+    flex: 1;
+    min-width: 35%;
+    padding: 1rem;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .pie-chart-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #1d49ae;
+    margin-bottom: 1rem;
+  }
+  
+  @media (max-width: 768px) {
+    .budget-container {
+      flex-direction: column;
+    }
+  
+    .transaction-list-container,
+    .pie-chart-container {
+      min-width: 100%;
+    }
+  }
+  

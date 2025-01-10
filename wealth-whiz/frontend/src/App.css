@@ -1,8 +1,10 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  max-width: 100%; /* Allow full width on smaller screens */
+  width: 90%; /* Occupy 90% of the viewport width */
+  max-width: 1400px; /* Constrain width for larger screens */
+  margin: 0 auto; /* Center horizontally */
+  padding: 2rem; /* Add spacing inside the container */
+  text-align: center; /* Align text within the container */
 }
 
 .logo-section {
@@ -46,4 +48,17 @@
 
 .read-the-docs {
   color: #888;
+}
+
+@media (min-width: 768px) {
+  #root {
+    width: 80%; /* Adjust width for medium screens */
+  }
+}
+
+@media (min-width: 1024px) {
+  #root {
+    width: 75%; /* Adjust width for larger screens */
+    max-width: 1600px; /* Allow more space for large screens */
+  }
 }

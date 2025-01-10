@@ -10,7 +10,7 @@ const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
 const PieChartSection: React.FC<PieChartSectionProps> = ({ data }) => {
   return (
-    <Box sx={{ width: '100%', maxWidth: 400, marginLeft: 'auto' }}>
+    <Box sx={{ width: '100%', maxWidth: 400 }}>
       <Typography variant="h6" align="center" gutterBottom>
         Expense Distribution
       </Typography>
@@ -22,7 +22,7 @@ const PieChartSection: React.FC<PieChartSectionProps> = ({ data }) => {
             nameKey="label"
             cx="50%"
             cy="50%"
-            outerRadius={100}
+            outerRadius={150}
             fill="#8884d8"
           >
             {data.map((entry, index) => (

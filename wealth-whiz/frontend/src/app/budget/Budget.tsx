@@ -16,6 +16,7 @@ import {
   Grid2,
 } from '@mui/material';
 import PieChartSection from './PieChartSection';
+import "./Budget.css";
 
 const BudgetPage = () => {
   const [transactions, setTransactions] = useState([
@@ -45,11 +46,14 @@ const BudgetPage = () => {
     value: transaction.amount,
   }));
 
+
   return (
-    <Container maxWidth={false} sx={{ maxWidth: '1600px', marginX: 'auto', paddingX: 4 }}>
+    <Container>
       <Typography variant="h4" align="center" gutterBottom>
         Budget Management
       </Typography>
+  
+      {/* Add Transaction Section */}
       <Box sx={{ mt: 4 }}>
         <Typography variant="h6">Add Transaction</Typography>
         <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
@@ -74,9 +78,20 @@ const BudgetPage = () => {
         </Stack>
       </Box>
   
-      <Grid2 container spacing={10} sx={{ mt: 4 }}>
-        <Grid2 xs={12} md={8}>
-          <Box className="transaction-table-container">
+      {/* Transaction List and Pie Chart */}
+      <Grid2 container spacing={4} sx={{ mt: 4 }}>
+        {/* Transaction List */}
+        <Grid2 size={6} xs={12} md={6}>
+          <Box
+            className="transaction-table-container"
+            sx={{
+              padding: '1.5rem',
+              boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+              backgroundColor: '#ffffff',
+              borderRadius: '8px',
+              height: '100%',
+            }}
+          >
             <Typography variant="h6">Transaction List</Typography>
             <TableContainer component={Paper} sx={{ mt: 2 }}>
               <Table>
@@ -99,14 +114,28 @@ const BudgetPage = () => {
           </Box>
         </Grid2>
   
-        <Grid2 xs={12} md={4}>
-          <Box className="pie-chart-container">
+        {/* Pie Chart */}
+        <Grid2 size={6} xs={12} md={6}>
+          <Box
+            className="pie-chart-container"
+            sx={{
+              padding: '1.5rem',
+              boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+              backgroundColor: '#ffffff',
+              borderRadius: '8px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: '100%',
+              width: '100%',
+            }}
+          >
             <PieChartSection data={pieChartData} />
           </Box>
         </Grid2>
       </Grid2>
     </Container>
-  );  
+  );
 };
 
 export default BudgetPage;
