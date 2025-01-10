@@ -20,7 +20,6 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY, // Ensure this is set in your .env file
 });
 
-// Create Plaid Link Token
 app.post("/api/create-link-token", async (req, res) => {
   try {
     const response = await axios.post(`${PLAID_URL}/link/token/create`, {
@@ -39,7 +38,6 @@ app.post("/api/create-link-token", async (req, res) => {
   }
 });
 
-// Exchange Public Token
 app.post("/api/exchange-public-token", async (req, res) => {
   const { public_token } = req.body;
   try {
@@ -55,7 +53,6 @@ app.post("/api/exchange-public-token", async (req, res) => {
   }
 });
 
-// Simulated Transactions Endpoint
 app.post("/api/get-transactions", async (req, res) => {
   try {
     const transactions = [
@@ -73,33 +70,29 @@ app.post("/api/get-transactions", async (req, res) => {
 });
 
 app.post("/api/generate-budget", async (req, res) => {
-    const { grossIncome, transactions } = req.body;
-  
-    const prompt = `
-      I have a monthly gross income of $${grossIncome}.
-      Here are my transactions:
-      ${JSON.stringify(transactions, null, 2)}
-  
-      Based on this data, create a detailed monthly budget for each category.
-      Provide the output as plain text, and do not include any formatting or JSON structure.
-    `;
-  
-    try {
-      const chatCompletion = await openai.chat.completions.create({
-        model: "gpt-4",
-        messages: [{ role: "user", content: prompt }],
-      });
-  
-      // Get the raw response from OpenAI
-      const budget = chatCompletion.choices[0].message.content.trim();
-  
-      // Wrap raw text in a JSON response for the frontend
-      res.json({ budget });
-    } catch (err) {
-      console.error("Error generating budget:", err.message);
-      res.status(500).json({ error: "Failed to generate budget. Please try again later." });
-    }
-  });  
+  const { grossIncome, transactions } = req.body;
+
+  const prompt = `
+    I have a monthly gross income of $${grossIncome}.
+    Here are my transactions:
+    ${JSON.stringify(transactions, null, 2)}
+
+    Based on this data, create a monthly budget for each category and suggest how much should be allocated to each category.
+  `;
+
+  try {
+    const chatCompletion = await openai.chat.completions.create({
+      model: "gpt-4",
+      messages: [{ role: "user", content: prompt }],
+    });
+
+    const budget = chatCompletion.choices[0].message.content.trim();
+    res.json({ budget });
+  } catch (err) {
+    console.error("Error generating budget:", err.message);
+    res.status(500).json({ error: "Failed to generate budget" });
+  }
+});
 
 const PORT = 8000;
 app.listen(PORT, () => console.log(`Backend running on http://localhost:${PORT}`));

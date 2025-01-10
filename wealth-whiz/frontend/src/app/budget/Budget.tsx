@@ -15,8 +15,10 @@ import {
   Container,
   Grid2,
   MenuItem,
+  Modal,
 } from '@mui/material';
 import PieChartSection from './PieChartSection';
+import { useLocation } from 'react-router-dom';
 import "./Budget.css";
 import '@fontsource/roboto/500.css';
 
@@ -28,47 +30,9 @@ const BudgetPage = () => {
   ]);
 
   const [newTransaction, setNewTransaction] = useState({ description: '', amount: '' });
-
-  const handleAddTransaction = () => {
-    if (newTransaction.description && newTransaction.amount) {
-      // Check if the category already exists in the transactions list
-      const existingTransaction = transactions.find(
-        (transaction) => transaction.description === newTransaction.description
-      );
-  
-      if (existingTransaction) {
-        // Update the amount for the existing category
-        setTransactions((prevTransactions) =>
-          prevTransactions.map((transaction) =>
-            transaction.description === newTransaction.description
-              ? {
-                  ...transaction,
-                  amount: transaction.amount + parseFloat(newTransaction.amount),
-                }
-              : transaction
-          )
-        );
-      } else {
-        // Add a new transaction if category doesn't exist
-        setTransactions([
-          ...transactions,
-          {
-            id: transactions.length + 1,
-            description: newTransaction.description,
-            amount: parseFloat(newTransaction.amount),
-          },
-        ]);
-      }
-      // Reset the transaction input fields
-      setNewTransaction({ description: '', amount: '' });
-    }
-  };
-  
-
-  const pieChartData = transactions.map((transaction) => ({
-    label: transaction.description,
-    value: transaction.amount,
-  }));
+  const [openModal, setOpenModal] = useState(false);
+  const location = useLocation();
+  const [chatGPTResponse, setChatGPTResponse] = useState("");
 
   useEffect(() => {
     // Load Botpress scripts dynamically
@@ -89,72 +53,133 @@ const BudgetPage = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (location.state?.budget) {
+      setChatGPTResponse(location.state.budget);
+      setOpenModal(true);
+    }
+  }, [location.state]);
+
+  const handleAddTransaction = () => {
+    if (newTransaction.description && newTransaction.amount) {
+      const existingTransaction = transactions.find(
+        (transaction) => transaction.description === newTransaction.description
+      );
+
+      if (existingTransaction) {
+        setTransactions((prevTransactions) =>
+          prevTransactions.map((transaction) =>
+            transaction.description === newTransaction.description
+              ? {
+                  ...transaction,
+                  amount: transaction.amount + parseFloat(newTransaction.amount),
+                }
+              : transaction
+          )
+        );
+      } else {
+        setTransactions([
+          ...transactions,
+          {
+            id: transactions.length + 1,
+            description: newTransaction.description,
+            amount: parseFloat(newTransaction.amount),
+          },
+        ]);
+      }
+      setNewTransaction({ description: '', amount: '' });
+    }
+  };
+
+  const pieChartData = transactions.map((transaction) => ({
+    label: transaction.description,
+    value: transaction.amount,
+  }));
+
   return (
     <Container>
-<Typography
-  variant="h4"
-  align="center"
-  gutterBottom
-  sx={{
-    color: "#ECECEC",
-    marginTop: '75px',
-    fontWeight: 'bold',
-    fontSize: '40px',
-    position: 'relative',
-    display: 'inline-block',
-    '&:hover:before': {
-      transform: 'scaleX(1)', // Show the underline
-    },
-    '&:before': {
-      content: '""',
-      position: 'absolute',
-      left: 0,
-      bottom: -8, // Position underline slightly below the text
-      width: '100%',
-      height: '3px',
-      backgroundColor: '#ffffff', // Underline color
-      transform: 'scaleX(0)', // Start hidden
-      transformOrigin: 'left', // Animation starts from the left
-      transition: 'transform 0.5s ease-in-out', // Smooth transition effect
-    },
-  }}
->
-  Your Personalized Budget Tracker
-</Typography>
+      <Typography
+        variant="h4"
+        align="center"
+        gutterBottom
+        sx={{
+          color: "#ECECEC",
+          marginTop: '75px',
+          fontWeight: 'bold',
+          fontSize: '40px',
+          position: 'relative',
+          display: 'inline-block',
+          '&:hover:before': {
+            transform: 'scaleX(1)',
+          },
+          '&:before': {
+            content: '""',
+            position: 'absolute',
+            left: 0,
+            bottom: -8,
+            width: '100%',
+            height: '3px',
+            backgroundColor: '#ffffff',
+            transform: 'scaleX(0)',
+            transformOrigin: 'left',
+            transition: 'transform 0.5s ease-in-out',
+          },
+        }}
+      >
+        Your Personalized Budget Tracker
+      </Typography>
 
-
+      {/* Modal for ChatGPT Response */}
+      <Modal
+        open={openModal}
+        onClose={() => setOpenModal(false)}
+        aria-labelledby="chatgpt-response-title"
+        aria-describedby="chatgpt-response-description"
+      >
+        <Box
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 400,
+            bgcolor: 'background.paper',
+            border: '2px solid #000',
+            boxShadow: 24,
+            p: 4,
+          }}
+        >
+          <Typography id="chatgpt-response-title" variant="h6" component="h2">
+            Suggested Budget
+          </Typography>
+          <Typography id="chatgpt-response-description" sx={{ mt: 2 }}>
+            {chatGPTResponse}
+          </Typography>
+          <Button
+            onClick={() => setOpenModal(false)}
+            variant="contained"
+            color="primary"
+            sx={{ mt: 2 }}
+          >
+            Close
+          </Button>
+        </Box>
+      </Modal>
 
       {/* Add Transaction Section */}
       <Box sx={{ mt: 4 }}>
-        <Typography variant="h6" align="left" sx={{color: "#ECECEC"}}> Add Transaction</Typography>
-        <Stack direction="row" spacing={6} sx={{ mt: 2}}>
+        <Typography variant="h6" align="left" sx={{ color: "#ECECEC" }}>
+          Add Transaction
+        </Typography>
+        <Stack direction="row" spacing={6} sx={{ mt: 2 }}>
           <TextField
-      select
-      label="Category"
-      variant="outlined"
-      sx={{
-        width: '1650px',
-        '& .MuiInputBase-input': {
-          color: 'white', // Text color for the dropdown
-        },
-        '& .MuiInputLabel-root': {
-          color: 'white', // Label color
-        },
-        '& .MuiOutlinedInput-root': {
-          '& fieldset': {
-            borderColor: 'white', // Border color
-          },
-          '&:hover fieldset': {
-            borderColor: '#90caf9', // Hover border color
-          },
-          '&.Mui-focused fieldset': {
-            borderColor: '#42a5f5', // Focused border color
-          },
-        },
-      }}
-      value={newTransaction.description}
-      onChange={(e) => setNewTransaction({ ...newTransaction, description: e.target.value })}
-    >
+            select
+            label="Category"
+            variant="outlined"
+            sx={{ width: '1650px' }}
+            value={newTransaction.description}
+            onChange={(e) => setNewTransaction({ ...newTransaction, description: e.target.value })}
+          >
             <MenuItem value="Groceries">Groceries</MenuItem>
             <MenuItem value="Rent">Rent</MenuItem>
             <MenuItem value="Utilities">Utilities</MenuItem>
@@ -167,37 +192,17 @@ const BudgetPage = () => {
             label="Amount"
             variant="outlined"
             type="number"
-            sx={{
-              width: '1250px',
-              '& .MuiInputBase-input': {
-                color: 'white', // Text color for the input
-              },
-              '& .MuiInputLabel-root': {
-                color: 'white', // Label color
-              },
-              '& .MuiOutlinedInput-root': {
-                '& fieldset': {
-                  borderColor: 'white', // Border color
-                },
-                '&:hover fieldset': {
-                  borderColor: '#90caf9', // Hover border color
-                },
-                '&.Mui-focused fieldset': {
-                  borderColor: '#42a5f5', // Focused border color
-                },
-              },
-            }}
+            sx={{ width: '1250px' }}
             value={newTransaction.amount}
             onChange={(e) => setNewTransaction({ ...newTransaction, amount: e.target.value })}
           />
-          {/* Add Button */}
           <Button
             variant="contained"
             onClick={handleAddTransaction}
             sx={{
               backgroundColor: '#001A6E',
               '&:hover': {
-                backgroundColor: '#074799', // Adjust hover color
+                backgroundColor: '#074799',
               },
             }}
           >
@@ -208,7 +213,6 @@ const BudgetPage = () => {
 
       {/* Transaction List and Pie Chart */}
       <Grid2 container spacing={6} sx={{ mt: 4, height: '400px' }}>
-        {/* Transaction List */}
         <Grid2 size={6} xs={12} md={6}>
           <Box
             className="transaction-table-container"
@@ -221,35 +225,35 @@ const BudgetPage = () => {
               overflowY: 'auto',
             }}
           >
-            <Typography variant="h6" sx={{ color: 'black', fontSize: '30px' }}>Transactions Log</Typography>
-            <TableContainer component={Paper} sx={{ mt: 2, height: 'calc(100% - 40px)'}}>
+            <Typography variant="h6" sx={{ color: 'black', fontSize: '30px' }}>
+              Transactions Log
+            </Typography>
+            <TableContainer component={Paper} sx={{ mt: 2, height: 'calc(100% - 40px)' }}>
               <Table>
                 <TableHead>
-                <TableRow>
-                  <TableCell sx={{ fontWeight: 'bold', fontSize: '22px' }}>Description</TableCell>
-                  <TableCell sx={{ fontWeight: 'bold', fontSize: '22px' }} align="left">
-                    Amount
-                  </TableCell>
-                </TableRow>
+                  <TableRow>
+                    <TableCell sx={{ fontWeight: 'bold', fontSize: '22px' }}>Description</TableCell>
+                    <TableCell sx={{ fontWeight: 'bold', fontSize: '22px' }} align="left">
+                      Amount
+                    </TableCell>
+                  </TableRow>
                 </TableHead>
                 <TableBody>
-                {transactions.map((transaction) => (
-                <TableRow key={transaction.id}>
-                  <TableCell sx={{ fontSize: '20px', color: 'black' }}>
-                    {transaction.description}
-                  </TableCell>
-                  <TableCell sx={{ fontSize: '20px', color: 'black' }} align="left">
-                    ${transaction.amount.toFixed(2)}
-                  </TableCell>
-                </TableRow>
-              ))}
+                  {transactions.map((transaction) => (
+                    <TableRow key={transaction.id}>
+                      <TableCell sx={{ fontSize: '20px', color: 'black' }}>
+                        {transaction.description}
+                      </TableCell>
+                      <TableCell sx={{ fontSize: '20px', color: 'black' }} align="left">
+                        ${transaction.amount.toFixed(2)}
+                      </TableCell>
+                    </TableRow>
+                  ))}
                 </TableBody>
               </Table>
             </TableContainer>
           </Box>
         </Grid2>
-
-        {/* Pie Chart */}
         <Grid2 size={6} xs={12} md={6}>
           <Box
             className="pie-chart-container"
