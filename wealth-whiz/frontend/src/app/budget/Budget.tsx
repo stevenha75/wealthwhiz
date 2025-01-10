@@ -17,6 +17,7 @@ import {
 } from '@mui/material';
 import PieChartSection from './PieChartSection';
 import "./Budget.css";
+import '@fontsource/roboto/500.css';
 
 const BudgetPage = () => {
   const [transactions, setTransactions] = useState([
@@ -74,20 +75,21 @@ const BudgetPage = () => {
         sx={{
           marginTop: '75px',
           fontWeight: 'bold',
+          fontSize: '40px'
         }}
       >
-        Your Personalized Budget
+        Your Personalized Budget Tracker
       </Typography>
 
       {/* Add Transaction Section */}
       <Box sx={{ mt: 4 }}>
         <Typography variant="h6" align="left"> Add Transaction</Typography>
-        <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
+        <Stack direction="row" spacing={6} sx={{ mt: 2}}>
           <TextField
             label="Description"
             variant="outlined"
             sx={{
-              width: '1250px',
+              width: '1650px',
               '& .MuiInputBase-input': {
                 color: 'white', // Text color for the input
               },
@@ -113,8 +115,8 @@ const BudgetPage = () => {
             label="Amount"
             variant="outlined"
             type="number"
-            fullWidth
             sx={{
+              width: '1250px',
               '& .MuiInputBase-input': {
                 color: 'white', // Text color for the input
               },
@@ -136,14 +138,19 @@ const BudgetPage = () => {
             value={newTransaction.amount}
             onChange={(e) => setNewTransaction({ ...newTransaction, amount: e.target.value })}
           />
-          <Button variant="contained" color="primary" onClick={handleAddTransaction}>
+          <Button variant="contained" onClick={handleAddTransaction} sx={{
+            backgroundColor: '#001A6E',
+            '&:hover': {
+              backgroundColor: '#074799', // Adjust hover color
+            },
+          }}>
             Add
           </Button>
         </Stack>
       </Box>
 
       {/* Transaction List and Pie Chart */}
-      <Grid2 container spacing={2} sx={{ mt: 4, height: '400px' }}>
+      <Grid2 container spacing={6} sx={{ mt: 4, height: '400px' }}>
         {/* Transaction List */}
         <Grid2 size={6} xs={12} md={6}>
           <Box
@@ -151,28 +158,34 @@ const BudgetPage = () => {
             sx={{
               padding: '1rem',
               boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
-              backgroundColor: '#ffffff',
+              backgroundColor: '#FAFAFA',
               borderRadius: '8px',
               height: '350px',
               overflowY: 'auto',
             }}
           >
-            <Typography variant="h6">Transaction List</Typography>
-            <TableContainer component={Paper} sx={{ mt: 2, height: 'calc(100% - 40px)' }}>
+            <Typography variant="h6" sx={{ color: 'black', fontSize: '30px' }}>Transactions Log</Typography>
+            <TableContainer component={Paper} sx={{ mt: 2, height: 'calc(100% - 40px)'}}>
               <Table>
                 <TableHead>
-                  <TableRow>
-                    <TableCell>Description</TableCell>
-                    <TableCell align="right">Amount</TableCell>
-                  </TableRow>
+                <TableRow>
+                  <TableCell sx={{ fontWeight: 'bold', fontSize: '22px' }}>Description</TableCell>
+                  <TableCell sx={{ fontWeight: 'bold', fontSize: '22px' }} align="left">
+                    Amount
+                  </TableCell>
+                </TableRow>
                 </TableHead>
                 <TableBody>
-                  {transactions.map((transaction) => (
-                    <TableRow key={transaction.id}>
-                      <TableCell>{transaction.description}</TableCell>
-                      <TableCell align="right">${transaction.amount.toFixed(2)}</TableCell>
-                    </TableRow>
-                  ))}
+                {transactions.map((transaction) => (
+                <TableRow key={transaction.id}>
+                  <TableCell sx={{ fontSize: '20px', color: 'black' }}>
+                    {transaction.description}
+                  </TableCell>
+                  <TableCell sx={{ fontSize: '20px', color: 'black' }} align="left">
+                    ${transaction.amount.toFixed(2)}
+                  </TableCell>
+                </TableRow>
+              ))}
                 </TableBody>
               </Table>
             </TableContainer>
@@ -186,7 +199,7 @@ const BudgetPage = () => {
             sx={{
               padding: '1rem',
               boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
-              backgroundColor: '#ffffff',
+              backgroundColor: '#FAFAFA',
               borderRadius: '8px',
               display: 'flex',
               alignItems: 'center',

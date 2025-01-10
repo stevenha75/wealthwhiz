@@ -11,7 +11,7 @@ const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 const PieChartSection: React.FC<PieChartSectionProps> = ({ data }) => {
   return (
     <Box sx={{ width: '100%', maxWidth: 400 }}>
-      <Typography variant="h6" align="center" gutterBottom>
+      <Typography variant="h6" align="center" gutterBottom sx={{color: 'black', fontSize: '30px'}}>
         Expense Distribution
       </Typography>
       <ResponsiveContainer width="100%" height={300}>
