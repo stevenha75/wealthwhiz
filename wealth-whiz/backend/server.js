@@ -3,17 +3,23 @@ const bodyParser = require("body-parser");
 const axios = require("axios");
 require("dotenv").config();
 const cors = require("cors");
+const OpenAI = require("openai");
 
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
+// Plaid and OpenAI Configurations
 const PLAID_CLIENT_ID = process.env.PLAID_CLIENT_ID;
 const PLAID_SECRET = process.env.PLAID_SECRET;
 const PLAID_ENV = process.env.PLAID_ENV || "sandbox";
 const PLAID_URL = `https://${PLAID_ENV}.plaid.com`;
 
-// Step 1: Create Link Token
+// Initialize OpenAI client
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY, // Ensure this is set in your .env file
+});
+
 app.post("/api/create-link-token", async (req, res) => {
   try {
     const response = await axios.post(`${PLAID_URL}/link/token/create`, {
@@ -27,11 +33,11 @@ app.post("/api/create-link-token", async (req, res) => {
     });
     res.json(response.data);
   } catch (err) {
-    res.status(500).json({ error: err.response.data });
+    console.error("Error creating link token:", err.response?.data || err.message);
+    res.status(500).json({ error: err.response?.data || err.message });
   }
 });
 
-// Step 2: Exchange Public Token for Access Token
 app.post("/api/exchange-public-token", async (req, res) => {
   const { public_token } = req.body;
   try {
@@ -42,24 +48,49 @@ app.post("/api/exchange-public-token", async (req, res) => {
     });
     res.json(response.data);
   } catch (err) {
-    res.status(500).json({ error: err.response.data });
+    console.error("Error exchanging public token:", err.response?.data || err.message);
+    res.status(500).json({ error: err.response?.data || err.message });
   }
 });
 
-// Step 3: Fetch Transactions
 app.post("/api/get-transactions", async (req, res) => {
-  const { access_token } = req.body;
   try {
-    const response = await axios.post(`${PLAID_URL}/transactions/get`, {
-      client_id: PLAID_CLIENT_ID,
-      secret: PLAID_SECRET,
-      access_token,
-      start_date: "2023-01-01",
-      end_date: "2023-12-31",
-    });
-    res.json(response.data);
+    const transactions = [
+      { category: "Groceries", amount: 250 },
+      { category: "Rent", amount: 1200 },
+      { category: "Entertainment", amount: 200 },
+      { category: "Transportation", amount: 150 },
+      { category: "Savings", amount: 500 },
+    ];
+    res.json({ transactions });
   } catch (err) {
-    res.status(500).json({ error: err.response.data });
+    console.error("Error fetching transactions:", err.message);
+    res.status(500).json({ error: "Failed to fetch transactions" });
+  }
+});
+
+app.post("/api/generate-budget", async (req, res) => {
+  const { grossIncome, transactions } = req.body;
+
+  const prompt = `
+    I have a monthly gross income of $${grossIncome}.
+    Here are my transactions:
+    ${JSON.stringify(transactions, null, 2)}
+
+    Based on this data, create a monthly budget for each category and suggest how much should be allocated to each category.
+  `;
+
+  try {
+    const chatCompletion = await openai.chat.completions.create({
+      model: "gpt-4",
+      messages: [{ role: "user", content: prompt }],
+    });
+
+    const budget = chatCompletion.choices[0].message.content.trim();
+    res.json({ budget });
+  } catch (err) {
+    console.error("Error generating budget:", err.message);
+    res.status(500).json({ error: "Failed to generate budget" });
   }
 });
 

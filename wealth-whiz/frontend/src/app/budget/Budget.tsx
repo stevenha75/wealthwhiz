@@ -17,6 +17,8 @@ import {
 } from '@mui/material';
 import PieChartSection from './PieChartSection';
 import "./Budget.css";
+import ChatBot from "react-chatbotify";
+
 
 const BudgetPage = () => {
   const [transactions, setTransactions] = useState([
@@ -184,6 +186,7 @@ const BudgetPage = () => {
 </Grid2>
 
     </Container>
+
   );
 };
 
