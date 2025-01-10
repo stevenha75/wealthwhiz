@@ -8,7 +8,8 @@ import BudgetPage from './app/budget/Budget';
 import FormPage from './app/form/Form';
 import logo from './assets/logo.png';
 import { AuthProvider } from './context/AuthContext';
-import '@fontsource/roboto/700.css';
+import { Typography } from '@mui/material';
+import '@fontsource/roboto/500.css';
 
 
 const HomePage = () => (
@@ -27,12 +28,19 @@ const HomePage = () => (
       <img
         src={logo}
         alt="Wealth Whiz Logo"
-        style={{ width: '200%', maxWidth: '400px'}}
+        style={{ width: '100%', maxWidth: '1000px', height: 'auto', marginBottom: '1px' }}
       />
-      <hr style={{ width: '50%', border: '1px solid #ccc' }} />
-      <p style={{ fontSize: '1.5rem', color: '#FFFF', textAlign: 'center' }}>
+      <hr style={{ width: '50%', border: '1px solid #ccc', marginBottom: '20px' }} />
+      <Typography
+        variant="body1"
+        sx={{
+          fontSize: '1.5rem',
+          color: '#ECECEC',
+          textAlign: 'center',
+        }}
+      >
         Welcome to Wealth Whiz: <br /> Your personalized budget advisor.
-      </p>
+      </Typography>
     </div>
 
     {/* Right Section: Sign-In Form */}
@@ -49,6 +57,21 @@ const HomePage = () => (
     </div>
   </main>
 );
+
+//     {/* Right Section: Sign-In Form */}
+//     <div
+//       style={{
+//         flex: 1,
+//         display: 'flex',
+//         alignItems: 'center',
+//         justifyContent: 'center',
+//         padding: '2rem',
+//       }}
+//     >
+//       <SignInForm />
+//     </div>
+//   </main>
+// );
 
 
 function App() {

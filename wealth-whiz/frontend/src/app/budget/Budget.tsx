@@ -14,6 +14,7 @@ import {
   Stack,
   Container,
   Grid2,
+  MenuItem,
 } from '@mui/material';
 import PieChartSection from './PieChartSection';
 import "./Budget.css";
@@ -30,17 +31,39 @@ const BudgetPage = () => {
 
   const handleAddTransaction = () => {
     if (newTransaction.description && newTransaction.amount) {
-      setTransactions([
-        ...transactions,
-        {
-          id: transactions.length + 1,
-          description: newTransaction.description,
-          amount: parseFloat(newTransaction.amount),
-        },
-      ]);
+      // Check if the category already exists in the transactions list
+      const existingTransaction = transactions.find(
+        (transaction) => transaction.description === newTransaction.description
+      );
+  
+      if (existingTransaction) {
+        // Update the amount for the existing category
+        setTransactions((prevTransactions) =>
+          prevTransactions.map((transaction) =>
+            transaction.description === newTransaction.description
+              ? {
+                  ...transaction,
+                  amount: transaction.amount + parseFloat(newTransaction.amount),
+                }
+              : transaction
+          )
+        );
+      } else {
+        // Add a new transaction if category doesn't exist
+        setTransactions([
+          ...transactions,
+          {
+            id: transactions.length + 1,
+            description: newTransaction.description,
+            amount: parseFloat(newTransaction.amount),
+          },
+        ]);
+      }
+      // Reset the transaction input fields
       setNewTransaction({ description: '', amount: '' });
     }
   };
+  
 
   const pieChartData = transactions.map((transaction) => ({
     label: transaction.description,
@@ -68,49 +91,78 @@ const BudgetPage = () => {
 
   return (
     <Container>
-      <Typography
-        variant="h4"
-        align="center"
-        gutterBottom
-        sx={{
-          marginTop: '75px',
-          fontWeight: 'bold',
-          fontSize: '40px'
-        }}
-      >
-        Your Personalized Budget Tracker
-      </Typography>
+<Typography
+  variant="h4"
+  align="center"
+  gutterBottom
+  sx={{
+    color: "#ECECEC",
+    marginTop: '75px',
+    fontWeight: 'bold',
+    fontSize: '40px',
+    position: 'relative',
+    display: 'inline-block',
+    '&:hover:before': {
+      transform: 'scaleX(1)', // Show the underline
+    },
+    '&:before': {
+      content: '""',
+      position: 'absolute',
+      left: 0,
+      bottom: -8, // Position underline slightly below the text
+      width: '100%',
+      height: '3px',
+      backgroundColor: '#ffffff', // Underline color
+      transform: 'scaleX(0)', // Start hidden
+      transformOrigin: 'left', // Animation starts from the left
+      transition: 'transform 0.5s ease-in-out', // Smooth transition effect
+    },
+  }}
+>
+  Your Personalized Budget Tracker
+</Typography>
+
+
 
       {/* Add Transaction Section */}
       <Box sx={{ mt: 4 }}>
-        <Typography variant="h6" align="left"> Add Transaction</Typography>
+        <Typography variant="h6" align="left" sx={{color: "#ECECEC"}}> Add Transaction</Typography>
         <Stack direction="row" spacing={6} sx={{ mt: 2}}>
           <TextField
-            label="Description"
-            variant="outlined"
-            sx={{
-              width: '1650px',
-              '& .MuiInputBase-input': {
-                color: 'white', // Text color for the input
-              },
-              '& .MuiInputLabel-root': {
-                color: 'white', // Label color
-              },
-              '& .MuiOutlinedInput-root': {
-                '& fieldset': {
-                  borderColor: 'white', // Border color
-                },
-                '&:hover fieldset': {
-                  borderColor: '#90caf9', // Hover border color
-                },
-                '&.Mui-focused fieldset': {
-                  borderColor: '#42a5f5', // Focused border color
-                },
-              },
-            }}
-            value={newTransaction.description}
-            onChange={(e) => setNewTransaction({ ...newTransaction, description: e.target.value })}
-          />
+      select
+      label="Category"
+      variant="outlined"
+      sx={{
+        width: '1650px',
+        '& .MuiInputBase-input': {
+          color: 'white', // Text color for the dropdown
+        },
+        '& .MuiInputLabel-root': {
+          color: 'white', // Label color
+        },
+        '& .MuiOutlinedInput-root': {
+          '& fieldset': {
+            borderColor: 'white', // Border color
+          },
+          '&:hover fieldset': {
+            borderColor: '#90caf9', // Hover border color
+          },
+          '&.Mui-focused fieldset': {
+            borderColor: '#42a5f5', // Focused border color
+          },
+        },
+      }}
+      value={newTransaction.description}
+      onChange={(e) => setNewTransaction({ ...newTransaction, description: e.target.value })}
+    >
+            <MenuItem value="Groceries">Groceries</MenuItem>
+            <MenuItem value="Rent">Rent</MenuItem>
+            <MenuItem value="Utilities">Utilities</MenuItem>
+            <MenuItem value="Transportation">Transportation</MenuItem>
+            <MenuItem value="Entertainment">Entertainment</MenuItem>
+            <MenuItem value="Savings">Savings</MenuItem>
+            <MenuItem value="Miscellaneous">Miscellaneous</MenuItem>
+          </TextField>
           <TextField
             label="Amount"
             variant="outlined"
@@ -138,12 +190,17 @@ const BudgetPage = () => {
             value={newTransaction.amount}
             onChange={(e) => setNewTransaction({ ...newTransaction, amount: e.target.value })}
           />
-          <Button variant="contained" onClick={handleAddTransaction} sx={{
-            backgroundColor: '#001A6E',
-            '&:hover': {
-              backgroundColor: '#074799', // Adjust hover color
-            },
-          }}>
+          {/* Add Button */}
+          <Button
+            variant="contained"
+            onClick={handleAddTransaction}
+            sx={{
+              backgroundColor: '#001A6E',
+              '&:hover': {
+                backgroundColor: '#074799', // Adjust hover color
+              },
+            }}
+          >
             Add
           </Button>
         </Stack>
