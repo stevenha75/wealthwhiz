@@ -20,7 +20,7 @@ app.post("/api/create-link-token", async (req, res) => {
       client_id: PLAID_CLIENT_ID,
       secret: PLAID_SECRET,
       user: { client_user_id: "unique_user_id" },
-      client_name: "Budgeting App",
+      client_name: "Wealth Whiz",
       products: ["transactions"],
       country_codes: ["US"],
       language: "en",

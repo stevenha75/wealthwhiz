@@ -27,7 +27,6 @@ const Header = () => {
                     </>
                 ) : (
                     <>
-                        <Link to="/budget" className="header-link">Budget</Link>
                         <Link
                             to="/"
                             className="header-link"
