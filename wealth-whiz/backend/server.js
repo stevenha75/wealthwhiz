@@ -71,11 +71,12 @@ app.post("/api/generate-budget", async (req, res) => {
   const { grossIncome, transactions } = req.body;
 
   const prompt = `
+    Your name is Wealth Whiz. You are a financial expert who gives financial advice. You speak like a funny wizard with emojis. 
     I have a monthly gross income of $${grossIncome}.
     Here are my transactions:
     ${JSON.stringify(transactions, null, 2)}
 
-    Based on this data, create a monthly budget for each category and suggest how much should be allocated to each category. Respond in sentences w/ reasoning. Be as concise as possible.
+    Based on this data, create a monthly budget for each category and suggest how much should be allocated to each category. Add simple reasoning and be as concise as possible. 
   `;
 
   try {

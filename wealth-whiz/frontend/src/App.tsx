@@ -39,7 +39,7 @@ const HomePage = () => (
           textAlign: 'center',
         }}
       >
-        Welcome to Wealth Whiz: <br /> Your personalized budget advisor.
+        Welcome to Wealth Whiz: <br /> Your personalized budget wizard.
       </Typography>
     </div>
 
